@@ -15,8 +15,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.uvik.sdm.service.MyUserDetailsService;
 import com.uvik.security.main.JwtUtil;
-import com.uvik.security.main.MyUserDetailsService;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter
@@ -29,8 +29,7 @@ public class JwtRequestFilter extends OncePerRequestFilter
 	protected void doFilterInternal(
 			HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException
-	{
-		
+	{	
 		final String authorizationHeader=request.getHeader("Authorization");
 		String userName=null;
 		String jwt=null;
@@ -43,8 +42,11 @@ public class JwtRequestFilter extends OncePerRequestFilter
 			UserDetails userDetails=this.myUserDetailsService.loadUserByUsername(userName);
 			if(jwtUtil.validToken(jwt, userDetails))
 			{
-				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken=new UsernamePasswordAuthenticationToken(userDetails, null,userDetails.getAuthorities());
-				usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
+						=new UsernamePasswordAuthenticationToken(userDetails, null,userDetails
+						.getAuthorities());
+				usernamePasswordAuthenticationToken.setDetails(
+						new WebAuthenticationDetailsSource().buildDetails(request));
 				
 				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 			}
