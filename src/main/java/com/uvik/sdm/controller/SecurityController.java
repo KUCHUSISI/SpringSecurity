@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.uvik.sdm.service.MyUserDetailsService;
+import com.uvik.sdm.service.StudentDetailsService;
 import com.uvik.security.main.JwtUtil;
 import com.uvik.security.model.AuthenticateRequest;
 import com.uvik.security.model.AuthenticateResponse;
@@ -26,7 +26,7 @@ public class SecurityController
 	private AuthenticationManager authenticationManager;
 
 	@Autowired
-	private MyUserDetailsService studentDetailsService;
+	private StudentDetailsService studentDetailsService;
 
 	@Autowired
 	private JwtUtil jwtTokenUtil;

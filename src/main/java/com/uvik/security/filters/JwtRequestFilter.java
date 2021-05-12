@@ -15,14 +15,14 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.uvik.sdm.service.MyUserDetailsService;
+import com.uvik.sdm.service.StudentDetailsService;
 import com.uvik.security.main.JwtUtil;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter
 {
 	@Autowired
-	private MyUserDetailsService myUserDetailsService;
+	private StudentDetailsService studentDetailsService;
 	@Autowired
 	private JwtUtil jwtUtil;
 	@Override
@@ -33,13 +33,14 @@ public class JwtRequestFilter extends OncePerRequestFilter
 		final String authorizationHeader=request.getHeader("Authorization");
 		String userName=null;
 		String jwt=null;
-		if(authorizationHeader!=null && authorizationHeader.startsWith("Bearer ")) {
+		if(authorizationHeader!=null && authorizationHeader.startsWith("Bearer ")) 
+		{
 			jwt=authorizationHeader.substring(7);
 			userName=jwtUtil.extractUserName(jwt);
 		}
 		if(userName!=null && SecurityContextHolder.getContext().getAuthentication()==null)
 		{
-			UserDetails userDetails=this.myUserDetailsService.loadUserByUsername(userName);
+			UserDetails userDetails=this.studentDetailsService.loadUserByUsername(userName);
 			if(jwtUtil.validToken(jwt, userDetails))
 			{
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken

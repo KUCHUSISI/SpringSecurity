@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.uvik.sdm.service.MyUserDetailsService;
+import com.uvik.sdm.service.StudentDetailsService;
 import com.uvik.security.filters.JwtRequestFilter;
 
 @Configuration
@@ -21,13 +21,14 @@ import com.uvik.security.filters.JwtRequestFilter;
 public class SecurityConfiguration  extends WebSecurityConfigurerAdapter
 {
 	@Autowired
-	private MyUserDetailsService myUserDetailsService;
+	private StudentDetailsService studentDetailsService;
 	
 	@Autowired
 	private JwtRequestFilter jwtRequestFilter;
+	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(myUserDetailsService);
+		auth.userDetailsService(studentDetailsService);
 	}
 	@Bean
 	public PasswordEncoder passwordEncoder() {
